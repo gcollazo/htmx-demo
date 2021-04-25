@@ -22,6 +22,7 @@ export function layout(state) {
   </head>
   <body>
     <script src="https://unpkg.com/htmx.org@1.3.3"></script>
+    <h1>Counter</h1>
     <div id="container">
       ${fragment(state)}
     </div>
