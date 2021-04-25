@@ -3,6 +3,7 @@ import { fragment, layout } from "./page.js";
 import express from "express";
 
 const app = express();
+const PORT = process.env.PORT || 3000;
 
 const MIN = 0;
 const MAX = 10;
@@ -39,6 +40,6 @@ app.post("/sub", (req, res) => {
   res.send(fragment(state));
 });
 
-app.listen(3000, () => {
-  console.log("Listening on http://localhost:3000....");
+app.listen(PORT, () => {
+  console.log(`Listening on http://localhost:${PORT}....`);
 });
