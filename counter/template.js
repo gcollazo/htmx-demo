@@ -3,9 +3,9 @@ export function fragment({ count, buttonState }) {
   let addIsDisabled = buttonState.addIsDisabled ? "disabled" : "";
 
   return `
-    <button hx-post="/sub" hx-target="#container" ${subIsDisabled}>-</button>
+    <button hx-post="/counter/sub" hx-target="#container" ${subIsDisabled}>-</button>
     <span>${count}</span>
-    <button hx-post="/add" hx-target="#container" ${addIsDisabled}>+</button>
+    <button hx-post="/counter/add" hx-target="#container" ${addIsDisabled}>+</button>
   `;
 }
 
