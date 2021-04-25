@@ -20,11 +20,14 @@ router.get("/", (req, res) => {
 });
 
 router.post("/add", (req, res) => {
-  todoItems.push({
-    id: getNextId(todoItems),
-    title: req.body.todo,
-    done: false,
-  });
+  if (req.body.todo.length > 0) {
+    todoItems.push({
+      id: getNextId(todoItems),
+      title: req.body.todo,
+      done: false,
+    });
+  }
+
   res.send(todoListFragment(todoItems));
 });
 
