@@ -4,8 +4,6 @@ import express from "express";
 
 let router = express();
 
-router.use(express.urlencoded());
-
 let todoItems = [];
 
 function getNextId(todoItems) {
