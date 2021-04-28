@@ -9,15 +9,19 @@ export function displayFragment(document) {
       </button>
     </div>
     <hr />
+    <h3>${document.title}</h3>
     ${document.text}
   `;
 }
 
 export function editorFragment(document) {
+  let title = document.title ? document.title : "Untitled document";
+
   return `
     <form hx-put="/editor/edit/${document.id}" hx-target="#detail">
       <div><button type="submit">Save</button></div>
       <hr />
+      <input type="text" name="title" value="${title}" placeholder="Untitled document"/>
       <textarea name="text">${document.text}</textarea>
     </form>
   `;
@@ -28,6 +32,7 @@ export function createFragment() {
     <form hx-post="/editor" hx-target="#detail" hx-push-url="true">
       <div><button type="submit">Save</button></div>
       <hr />
+      <input type="text" name="title" placeholder="Untitled document"/>
       <textarea name="text"></textarea>
     </form>
   `;

@@ -39,7 +39,7 @@ router.post("/", (req, res) => {
 
   let newDoc = {
     id: nextId,
-    title: `Document ${nextId}`,
+    title: req.body.title || `Untitled document ${nextId}`,
     text: req.body.text,
   };
 
@@ -75,12 +75,16 @@ router.put("/edit/:id", (req, res) => {
   documents = documents.map((item) => {
     if (`${item.id}` === req.params.id) {
       item.text = req.body.text;
+      item.title = req.body.title;
       doc = item;
     }
 
     return item;
   });
-  res.send(displayFragment(doc));
+
+  let result = displayFragment(doc);
+  result += menuFragment(documents, doc, true);
+  return res.send(result);
 });
 
 export default router;
