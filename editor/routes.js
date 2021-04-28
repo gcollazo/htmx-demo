@@ -1,20 +1,11 @@
-import {
-  createFragment,
-  displayFragment,
-  editorFragment,
-  layout,
-  menuFragment,
-} from "./template.js";
-
 import express from "express";
 
-let router = express();
+const router = express();
+const templateDir = `${process.cwd()}/editor/templates`;
 
-let documents = [
-  { id: 1, title: "First", text: "Uno lorem ipsum 1" },
-  { id: 2, title: "Second", text: "Dos lorem ipsum 2" },
-  { id: 3, title: "Third", text: "Tres lorem ipsum 3" },
-];
+router.set("views", templateDir);
+
+let documents = [];
 
 function getNextId(allDocuments) {
   if (allDocuments.length === 0) {
@@ -23,15 +14,15 @@ function getNextId(allDocuments) {
   return allDocuments[allDocuments.length - 1].id + 1;
 }
 
-router.use("/", express.static("./editor/"));
-
 router.get("/", (req, res) => {
-  let firstDocument = documents[0];
-  res.redirect(`/editor/${firstDocument.id}`);
+  res.render("layout", {
+    documents,
+    isUpdate: false,
+  });
 });
 
 router.get("/new", (req, res) => {
-  res.send(createFragment());
+  res.render("partials/form-create");
 });
 
 router.post("/", (req, res) => {
@@ -51,40 +42,65 @@ router.get("/:id", (req, res) => {
   let isHxRequest = req.headers["hx-request"] || false;
   let doc = documents.find((item) => `${item.id}` === req.params.id);
 
-  let isNew = req.query.new === "1";
-
-  if (isHxRequest && isNew) {
-    let result = displayFragment(doc);
-    result += menuFragment(documents, doc, true);
-    return res.send(result);
-  } else if (isHxRequest) {
-    return res.send(displayFragment(doc));
-  }
-
-  res.send(layout(documents, doc));
-});
-
-router.get("/edit/:id", (req, res) => {
-  let doc = documents.find((item) => `${item.id}` === req.params.id);
-  res.send(editorFragment(doc));
-});
-
-router.put("/edit/:id", (req, res) => {
-  let doc;
-
   documents = documents.map((item) => {
     if (`${item.id}` === req.params.id) {
-      item.text = req.body.text;
-      item.title = req.body.title;
-      doc = item;
+      item.isActive = true;
+    } else {
+      item.isActive = false;
     }
 
     return item;
   });
 
-  let result = displayFragment(doc);
-  result += menuFragment(documents, doc, true);
-  return res.send(result);
+  let isNew = req.query.new === "1";
+
+  if (isHxRequest && isNew) {
+    return res.render("partials/detail", {
+      documents,
+      document: doc,
+      isUpdate: true,
+    });
+  } else if (isHxRequest) {
+    return res.render("partials/detail", {
+      documents,
+      document: doc,
+      isUpdate: false,
+    });
+  }
+
+  res.render("layout", {
+    documents,
+    document: doc,
+    isUpdate: false,
+  });
+});
+
+router.get("/edit/:id", (req, res) => {
+  let doc = documents.find((item) => `${item.id}` === req.params.id);
+  res.render("partials/form-edit", { document: doc });
+});
+
+router.put("/edit/:id", (req, res) => {
+  let doc = documents.find((item) => `${item.id}` === req.params.id);
+
+  documents = documents.map((item) => {
+    if (`${item.id}` === req.params.id) {
+      item.isActive = true;
+      item.text = req.body.text;
+      item.title = req.body.title;
+      doc = item;
+    } else {
+      item.isActive = false;
+    }
+
+    return item;
+  });
+
+  res.render("partials/detail", {
+    documents,
+    document: doc,
+    isUpdate: true,
+  });
 });
 
 export default router;

@@ -1,0 +1,6 @@
+<form hx-put="/editor/edit/{{document.id}}" hx-target="#detail">
+  <div><button type="submit">Save</button></div>
+  <hr />
+  <input type="text" name="title" value="{{document.title}}" placeholder="Untitled document" />
+  <textarea name="text">{{document.text}}</textarea>
+</form>

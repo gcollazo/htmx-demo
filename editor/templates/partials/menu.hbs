@@ -1,0 +1,10 @@
+<ul _="on htmx:afterOnLoad take .active for event.target" id="menu" {{#if isUpdate}}hx-swap-oob="true" {{/if}}>
+  {{#each documents as |document|}}
+    <li>
+      <a href="/editor/{{document.id}}" hx-get="/editor/{{document.id}}" hx-target="#detail" hx-push-url="true"
+        class="{{#if document.isActive}}active{{/if}}">
+        {{document.title}}
+      </a>
+    </li>
+  {{/each}}
+</ul>

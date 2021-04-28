@@ -1,0 +1,16 @@
+{{#if document}}
+  <div>
+    <button hx-get="/editor/edit/{{document.id}}" hx-target="#detail">
+      Edit
+    </button>
+  </div>
+  <hr />
+  <h3>{{document.title}}</h3>
+  {{document.text}}
+{{else}}
+  Select a document or create one using the "New" button
+{{/if}}
+
+{{#if isUpdate}}
+  {{> menu documents=documents isUpdate=isUpdate}}
+{{/if}}
