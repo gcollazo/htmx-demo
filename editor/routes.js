@@ -44,14 +44,20 @@ router.post("/", (req, res) => {
   };
 
   documents.push(newDoc);
-  res.redirect(`/editor/${nextId}`);
+  res.redirect(`/editor/${nextId}?new=1`);
 });
 
 router.get("/:id", (req, res) => {
   let isHxRequest = req.headers["hx-request"] || false;
   let doc = documents.find((item) => `${item.id}` === req.params.id);
 
-  if (isHxRequest) {
+  let isNew = req.query.new === "1";
+
+  if (isHxRequest && isNew) {
+    let result = displayFragment(doc);
+    result += menuFragment(documents, doc, true);
+    return res.send(result);
+  } else if (isHxRequest) {
     return res.send(displayFragment(doc));
   }
 

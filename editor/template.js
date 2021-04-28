@@ -33,7 +33,17 @@ export function createFragment() {
   `;
 }
 
-export function menuFragment(documents, activeDocument) {
+export function menuFragment(documents, activeDocument, oob = false) {
+  let oobUpdate = oob ? 'hx-swap-oob="true"' : "";
+
+  return `
+    <ul _="on htmx:afterOnLoad take .active for event.target" id="menu" ${oobUpdate}>
+      ${menuItems(documents, activeDocument)}
+    </ul>
+  `;
+}
+
+export function menuItems(documents, activeDocument) {
   return documents
     .map((item, index) => {
       let activeClass = item.id === activeDocument.id ? "active" : "";
@@ -76,9 +86,7 @@ export function layout(documents, activeDocument) {
               New
             </button>
           </div>
-          <ul _="on htmx:afterOnLoad take .active for event.target" id="menu">
-            ${menuFragment(documents, activeDocument)}
-          </ul>
+          ${menuFragment(documents, activeDocument)}
         </div>
         <div id="detail">
           ${displayFragment(activeDocument)}
