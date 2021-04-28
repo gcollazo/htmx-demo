@@ -2,13 +2,9 @@ import express from "express";
 import hbs from "express-hbs";
 
 const router = express();
-
 const templateDir = `${process.cwd()}/counter/templates`;
-const partialsDir = `${templateDir}/partials`;
 
-router.set("view engine", "hbs");
 router.set("views", templateDir);
-router.engine("hbs", hbs.express4({ partialsDir }));
 
 const MIN = 0;
 const MAX = 10;
