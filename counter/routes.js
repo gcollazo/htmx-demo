@@ -1,6 +1,5 @@
-import { fragment, layout } from "./template.js";
-
 import express from "express";
+import hbs from "express-hbs";
 
 let router = express();
 
@@ -18,9 +17,15 @@ function getState(count) {
   };
 }
 
+const templateDir = `${process.cwd()}/counter/templates`;
+
+router.set("view engine", "hbs");
+router.set("views", templateDir);
+router.engine("hbs", hbs.express4({ partialsDir: `${templateDir}/partials` }));
+
 router.get("/", (req, res) => {
   let state = getState(_count);
-  res.send(layout(state));
+  res.render(`full`, { state });
 });
 
 router.post("/add", (req, res) => {
@@ -28,7 +33,7 @@ router.post("/add", (req, res) => {
     _count++;
   }
   let state = getState(_count);
-  res.send(fragment(state));
+  res.render(`partials/counter`, { state });
 });
 
 router.post("/sub", (req, res) => {
@@ -36,7 +41,7 @@ router.post("/sub", (req, res) => {
     _count--;
   }
   let state = getState(_count);
-  res.send(fragment(state));
+  res.render(`partials/counter`, { state });
 });
 
 export default router;

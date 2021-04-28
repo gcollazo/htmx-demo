@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "node app.js",
-    "dev": "nodemon --inspect app.js"
+    "dev": "nodemon --ext js,hbs --inspect app.js"
   },
   "keywords": [],
   "author": "",
@@ -15,7 +15,8 @@
     "node": ">=14"
   },
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "express-hbs": "^2.4.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.7"

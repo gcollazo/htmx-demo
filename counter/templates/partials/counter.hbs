@@ -1,0 +1,3 @@
+<button hx-post="/counter/sub" hx-target="#container" {{#if state.buttonState.subIsDisabled}}disabled{{/if}}>-</button>
+<span>{{state.count}}</span>
+<button hx-post="/counter/add" hx-target="#container" {{#if state.buttonState.addIsDisabled}}disabled{{/if}}>+</button>
