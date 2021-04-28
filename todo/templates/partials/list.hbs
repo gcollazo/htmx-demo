@@ -1,0 +1,17 @@
+{{#each todos as |item|}}
+  <li>
+    <input type="checkbox" hx-patch="/todo/update/{{item.id}}" hx-target="#list" {{#if item.done}}checked{{/if}}>
+    {{#if item.done}}
+      <strike>{{item.title}}</strike>
+    {{else}}
+      {{item.title}}
+    {{/if}}
+    <button hx-delete="/todo/remove/{{item.id}}" hx-target="#list">x</button>
+  </li>
+{{else}}
+  <small>Nothing to see here</small>
+{{/each}}
+
+{{#if isUpdate}}
+  <div id="counts" hx-swap-oob="true">{{counts}}</div>
+{{/if}}

@@ -1,7 +1,14 @@
 import express from "express";
 import hbs from "express-hbs";
 
-let router = express();
+const router = express();
+
+const templateDir = `${process.cwd()}/counter/templates`;
+const partialsDir = `${templateDir}/partials`;
+
+router.set("view engine", "hbs");
+router.set("views", templateDir);
+router.engine("hbs", hbs.express4({ partialsDir }));
 
 const MIN = 0;
 const MAX = 10;
@@ -16,12 +23,6 @@ function getState(count) {
     },
   };
 }
-
-const templateDir = `${process.cwd()}/counter/templates`;
-
-router.set("view engine", "hbs");
-router.set("views", templateDir);
-router.engine("hbs", hbs.express4({ partialsDir: `${templateDir}/partials` }));
 
 router.get("/", (req, res) => {
   let state = getState(_count);

@@ -1,8 +1,14 @@
-import { layout, todoListFragment } from "./template.js";
-
 import express from "express";
+import hbs from "express-hbs";
 
-let router = express();
+const router = express();
+
+const templateDir = `${process.cwd()}/todo/templates`;
+const partialsDir = `${templateDir}/partials`;
+
+router.set("view engine", "hbs");
+router.set("views", templateDir);
+router.engine("hbs", hbs.express4({ partialsDir }));
 
 let todoItems = [];
 
@@ -13,8 +19,15 @@ function getNextId(todoItems) {
   return todoItems[todoItems.length - 1].id + 1;
 }
 
+function getCounts(todoItems) {
+  let all = todoItems.length;
+  let incomplete = todoItems.filter((t) => t.done === false).length;
+  let completed = todoItems.filter((t) => t.done === true).length;
+  return `All: ${all}, Incomplete: ${incomplete}, Completed: ${completed}`;
+}
+
 router.get("/", (req, res) => {
-  res.send(layout(todoItems));
+  res.render("layout", { todos: todoItems, counts: getCounts(todoItems) });
 });
 
 router.post("/add", (req, res) => {
@@ -26,12 +39,20 @@ router.post("/add", (req, res) => {
     });
   }
 
-  res.send(todoListFragment(todoItems));
+  res.render("partials/list", {
+    todos: todoItems,
+    counts: getCounts(todoItems),
+    isUpdate: true,
+  });
 });
 
 router.delete("/remove/:id", (req, res) => {
   todoItems = todoItems.filter((item) => `${item.id}` !== req.params.id);
-  res.send(todoListFragment(todoItems));
+  res.render("partials/list", {
+    todos: todoItems,
+    counts: getCounts(todoItems),
+    isUpdate: true,
+  });
 });
 
 router.patch("/update/:id", (req, res) => {
@@ -43,7 +64,11 @@ router.patch("/update/:id", (req, res) => {
 
     return item;
   });
-  res.send(todoListFragment(todoItems));
+  res.render("partials/list", {
+    todos: todoItems,
+    counts: getCounts(todoItems),
+    isUpdate: true,
+  });
 });
 
 export default router;
