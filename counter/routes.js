@@ -25,7 +25,7 @@ router.engine("hbs", hbs.express4({ partialsDir: `${templateDir}/partials` }));
 
 router.get("/", (req, res) => {
   let state = getState(_count);
-  res.render(`full`, { state });
+  res.render(`layout`, { state });
 });
 
 router.post("/add", (req, res) => {
