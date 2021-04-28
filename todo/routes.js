@@ -23,6 +23,11 @@ function getCounts(todoItems) {
   let all = todoItems.length;
   let incomplete = todoItems.filter((t) => t.done === false).length;
   let completed = todoItems.filter((t) => t.done === true).length;
+
+  if (all === 0) {
+    return "";
+  }
+
   return `All: ${all}, Incomplete: ${incomplete}, Completed: ${completed}`;
 }
 
