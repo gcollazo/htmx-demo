@@ -6,6 +6,6 @@
 - `npm start`
 - Open [http://localhost:3000](http://localhost:3000)
 
-![Counter demo](counter/demo.gif)
+[![Demo](thumbnail.png)](https://www.youtube.com/watch?v=Y4DwIa02tmE)
 
-![Todo list demo](todo/demo.gif)
+[Watch video](https://www.youtube.com/watch?v=Y4DwIa02tmE)
