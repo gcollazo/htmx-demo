@@ -10,8 +10,8 @@ const List = ({items}) => {
           hx-patch={`/todo/update/${item.id}`}
           hx-target="#list"
           checked={item.done} />
-        <strike v-if={item.done}>{item.title}</strike>
-        <span v-unless={item.done}>{item.title}</span>
+        <strike v-escape={item.title} v-if={item.done} />
+        <span v-escape={item.title} v-unless={item.done} />
         <button hx-delete={`/todo/remove/${item.id}`} hx-target="#list">x</button>
       </li>
     }
