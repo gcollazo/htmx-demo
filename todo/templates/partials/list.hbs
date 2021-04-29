@@ -9,8 +9,14 @@
     <button hx-delete="/todo/remove/{{item.id}}" hx-target="#list">x</button>
   </li>
 {{else}}
-  <small>Nothing to see here</small>
+  <small id="nothingHere">Nothing to see here</small>
 {{/each}}
+
+<div id="tempTodo" style="display:none">
+  <input type="checkbox" disabled>
+  <span id="tempTitle">Text goes here...</span>
+  <button disabled>x</button>
+</div>
 
 {{#if isUpdate}}
   <div id="counts" hx-swap-oob="true">{{counts}}</div>

@@ -1,4 +1,9 @@
-<form hx-post="/todo/add" hx-target="#list" _="on submit put '' into #todoField.value">
-  <input id="todoField" type="text" name="todo" placeholder="Todo title...">
-  <button type="text">Add</button>
+<form hx-post="/todo/add" hx-target="#list" _="
+    on submit put #todoField.value into #tempTitle.innerHTML
+    hide #nothingHere
+    show #tempTodo
+    put '' into #todoField.value
+    on htmx:afterRequest hide #tempTodo
+  ">
+  <input id="todoField" type="text" name="todo" placeholder="Todo title..." autofocus>
 </form>

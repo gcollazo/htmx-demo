@@ -19,10 +19,6 @@ function getCounts(todoItems) {
   let incomplete = todoItems.filter((t) => t.done === false).length;
   let completed = todoItems.filter((t) => t.done === true).length;
 
-  if (all === 0) {
-    return "";
-  }
-
   return `All: ${all}, Incomplete: ${incomplete}, Completed: ${completed}`;
 }
 
@@ -30,7 +26,10 @@ router.get("/", (req, res) => {
   res.render("layout", { todos: todoItems, counts: getCounts(todoItems) });
 });
 
-router.post("/add", (req, res) => {
+router.post("/add", async (req, res) => {
+  // make adding tasks slow to show off optimistic UI
+  await new Promise((res) => setTimeout(res, 600));
+
   if (req.body.todo.length > 0) {
     todoItems.push({
       id: getNextId(todoItems),
