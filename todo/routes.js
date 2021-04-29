@@ -1,49 +1,30 @@
-import { layout, todoListFragment } from "./template.js";
-
+import Layout from "../common/layout.js"
+import TodoList from "./components/todo-list.js";
 import express from "express";
+import render from "../common/utility-render.js"
 
 let router = express();
 
-let todoItems = [];
-
-function getNextId(todoItems) {
-  if (todoItems.length === 0) {
-    return 1;
-  }
-  return todoItems[todoItems.length - 1].id + 1;
-}
-
 router.get("/", (req, res) => {
-  res.send(layout(todoItems));
+  res.send(render(<Layout title="Todo"><TodoList /></Layout>));
 });
 
 router.post("/add", (req, res) => {
   if (req.body.todo.length > 0) {
-    todoItems.push({
-      id: getNextId(todoItems),
-      title: req.body.todo,
-      done: false,
-    });
+    TodoList.addTodo({title: req.body.todo});
   }
 
-  res.send(todoListFragment(todoItems));
+  res.send(render(<TodoList.List />));
 });
 
 router.delete("/remove/:id", (req, res) => {
-  todoItems = todoItems.filter((item) => `${item.id}` !== req.params.id);
-  res.send(todoListFragment(todoItems));
+  TodoList.removeTodo(req.params.id);
+  res.send(render(<TodoList.List />));
 });
 
 router.patch("/update/:id", (req, res) => {
-  todoItems = todoItems.map((item) => {
-    if (`${item.id}` === req.params.id) {
-      item.done = !item.done;
-      return item;
-    }
-
-    return item;
-  });
-  res.send(todoListFragment(todoItems));
+  TodoList.toggleTodo(req.params.id);
+  res.send(render(<TodoList.List />));
 });
 
 export default router;

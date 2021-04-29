@@ -1,42 +1,22 @@
-import { fragment, layout } from "./template.js";
-
+import Counter from "./counter";
+import Layout from "../common/layout.js";
 import express from "express";
+import render from "../common/utility-render"
 
 let router = express();
 
-const MIN = 0;
-const MAX = 10;
-let _count = 0;
-
-function getState(count) {
-  return {
-    count,
-    buttonState: {
-      subIsDisabled: count === MIN ? true : false,
-      addIsDisabled: count === MAX ? true : false,
-    },
-  };
-}
-
 router.get("/", (req, res) => {
-  let state = getState(_count);
-  res.send(layout(state));
+  res.send(render(<Layout title="Counter"><Counter /></Layout>))
 });
 
 router.post("/add", (req, res) => {
-  if (_count < MAX) {
-    _count++;
-  }
-  let state = getState(_count);
-  res.send(fragment(state));
+  Counter.add();
+  res.send(render(<Counter />));
 });
 
 router.post("/sub", (req, res) => {
-  if (_count > MIN) {
-    _count--;
-  }
-  let state = getState(_count);
-  res.send(fragment(state));
+  Counter.subtract();
+  res.send(render(<Counter />));
 });
 
 export default router;
