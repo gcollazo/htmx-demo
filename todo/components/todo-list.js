@@ -24,7 +24,7 @@ const TodoList = {
     });
   },
   List(){
-    return <List items={this.todoListItems} />
+    return <List items={TodoList.todoListItems} />
   },
   view(){
     return <div>
