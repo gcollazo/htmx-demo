@@ -10,14 +10,13 @@
       font-family: sans-serif;
     }
   </style>
-  <title>Hello World</title>
+  <link rel="stylesheet" href="tailwind-huge.css">
+  <title>{{block "title"}}</title>
 </head>
 
 <body>
-  <h1>
-    <a href="/" style="text-decoration:none">⬅️</a>
-    Hello World
-  </h1>
+  {{{body}}}
+  {{{block "additionalScripts"}}}
 </body>
 
 </html>

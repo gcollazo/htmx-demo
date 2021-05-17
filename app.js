@@ -8,7 +8,7 @@ import todo from "./todo/routes.js";
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-let partialsDir = ["counter", "todo", "editor"].map(
+let partialsDir = ["counter", "todo", "editor", "hello-world"].map(
   (app) => `${process.cwd()}/${app}/templates/partials`
 );
 
