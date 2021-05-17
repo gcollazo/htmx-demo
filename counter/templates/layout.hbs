@@ -9,6 +9,14 @@
     html {
       font-family: sans-serif;
     }
+
+    #container {
+      transition: all 500ms;
+    }
+
+    #container.htmx-settling {
+      background-color: red;
+    }
   </style>
   <title>Counter</title>
 </head>
@@ -22,6 +30,19 @@
     {{> counter state=state}}
   </div>
   <script src="https://unpkg.com/htmx.org@1.3.3"></script>
+  <script>
+    document.body.addEventListener('htmx:configRequest', function (evt) {
+      evt.detail.parameters['_csrf'] = "{{state.csrfToken}}"; // add a new parameter into the mix
+    });
+
+    document.body.addEventListener('htmx:responseError', (event) => {
+      console.log('>>>>>', event);
+    })
+
+    document.body.addEventListener('htmx:sendError', (event) => {
+      console.log('>>>>>', event);
+    })
+  </script>
 </body>
 
 </html>

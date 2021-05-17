@@ -1,8 +1,13 @@
+import cookieParser from "cookie-parser";
+import csrf from "csurf";
 import express from "express";
 import hbs from "express-hbs";
 
 const router = express();
+const csrfProtection = csrf({ cookie: true });
 const templateDir = `${process.cwd()}/counter/templates`;
+
+router.use(cookieParser());
 
 router.set("views", templateDir);
 
@@ -20,25 +25,30 @@ function getState(count) {
   };
 }
 
-router.get("/", (req, res) => {
+router.get("/", csrfProtection, (req, res) => {
+  let isHxRequest = req.headers["hx-request"] || false;
   let state = getState(_count);
+  state.csrfToken = req.csrfToken();
+
+  if (isHxRequest) {
+    return res.render(`partials/counter`, { state });
+  }
+
   res.render(`layout`, { state });
 });
 
-router.post("/add", (req, res) => {
+router.post("/add", csrfProtection, (req, res) => {
   if (_count < MAX) {
     _count++;
   }
-  let state = getState(_count);
-  res.render(`partials/counter`, { state });
+  res.redirect("/counter/");
 });
 
-router.post("/sub", (req, res) => {
+router.post("/sub", csrfProtection, (req, res) => {
   if (_count > MIN) {
     _count--;
   }
-  let state = getState(_count);
-  res.render(`partials/counter`, { state });
+  res.redirect("/counter/");
 });
 
 export default router;

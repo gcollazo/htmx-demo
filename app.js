@@ -2,6 +2,7 @@ import counter from "./counter/routes.js";
 import editor from "./editor/routes.js";
 import express from "express";
 import hbs from "express-hbs";
+import helloWorld from "./hello-world/routes.js";
 import todo from "./todo/routes.js";
 
 const app = express();
@@ -16,6 +17,7 @@ app.engine("hbs", hbs.express4({ partialsDir }));
 
 app.use(express.urlencoded({ extended: true }));
 app.use("/", express.static("./public"));
+app.use("/hello-world", helloWorld);
 app.use("/counter", counter);
 app.use("/todo", todo);
 app.use("/editor", editor);
