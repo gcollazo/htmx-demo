@@ -6,24 +6,30 @@ class Counter {
   subIsDisabled = true;
   addIsDisabled = false;
 
-  add(){
-    if (this.count< this.max){
+  add() {
+    if (this.count < this.max) {
       this.count++;
     }
   }
 
-  subtract(){
-    if (this.count > this.min){
+  subtract() {
+    if (this.count > this.min) {
       this.count--;
     }
   }
 
-  view(){
-    return [
-      <button hx-post="/counter/sub" hx-target="#container" disabled={this.count === this.min}>-</button>,
-      <span>{this.count}</span>,
-      <button hx-post="/counter/add" hx-target="#container" disabled={this.count === this.max}>+</button>
-    ];
+  view() {
+    return (
+      <>
+        <button hx-post="/counter/sub" hx-target="#container" disabled={this.count === this.min}>
+          -
+        </button>
+        <span>{this.count}</span>
+        <button hx-post="/counter/add" hx-target="#container" disabled={this.count === this.max}>
+          +
+        </button>
+      </>
+    );
   }
 }
 

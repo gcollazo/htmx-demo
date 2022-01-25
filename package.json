@@ -17,7 +17,7 @@
   "dependencies": {
     "express": "^4.17.1",
     "express-hbs": "^2.4.0",
-    "valyrian.js": "^5.0.10"
+    "valyrian.js": "^5.0.17"
   },
   "devDependencies": {
     "nodemon": "^2.0.7"

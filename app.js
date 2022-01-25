@@ -3,6 +3,7 @@ import counter from "./counter/routes.js";
 import editor from "./editor/routes.js";
 import express from "express";
 import hbs from "express-hbs";
+import { hyperscriptToHtml } from "valyrian.js/plugins/node";
 import todo from "./todo/routes.js";
 
 const app = express();
@@ -16,7 +17,7 @@ app.set("view engine", "hbs");
 app.engine("hbs", hbs.express4({ partialsDir }));
 
 app.use(express.urlencoded({ extended: true }));
-app.get("/", (req, res) => res.send(v.mount('body', () => <Home />)));
+app.get("/", (req, res) => res.send(hyperscriptToHtml(<Home />)));
 app.use("/counter", counter);
 app.use("/todo", todo);
 app.use("/editor", editor);
